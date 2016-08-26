@@ -77,6 +77,49 @@ document.onkeydown=function(e){
 	keyDownFun(keyCode);
 }
 
+if(document.addEventListener){//判断是否支持此方法
+	var startX,startY,endX,endY;
+	document.addEventListener("touchstart",function(event){
+		event.preventDefault();// 阻止浏览器默认事件，重要
+		//console.log(event,1);
+		var touch = event.targetTouches[0];
+		startX=touch.pageX;//手指所在的坐标x
+		startY=touch.pageY;//手指所在的坐标y
+	});
+	document.addEventListener("touchmove",function(e){
+												   
+	});
+	document.addEventListener("touchend",function(event){
+		//console.log(event,2);
+		var touch = event.changedTouches[0];
+		endX=touch.pageX;//手指所在的坐标x
+		endY=touch.pageY;//手指所在的坐标Y
+		
+		var x=Math.abs(startX-endX);
+		var y=Math.abs(startY-endY);
+		//上:38;下:40;左：37；右39
+		if(x-y>0)
+		{
+			if(startX-endX>10){//向左
+				keyDownFun(37);
+			}
+			else if(startX-endX<-10)//向右
+			{
+				keyDownFun(39);
+			}
+		}
+		else{
+			if(startY-endY>10){//向上
+				keyDownFun(38);
+			}
+			else if(startY-endY<-10)//向下
+			{
+				keyDownFun(40);
+			}
+		}
+	});
+}
+
 function keyDownFun(keyCode){
 	if(keyCode>=37 && keyCode<=40)
 	{
@@ -121,7 +164,7 @@ function keyDownFun(keyCode){
 						if(arr[y][x]!=false)//存在的元素
 						{
 							var posArr=keyCodeDownFun(x,y);//做递归
-							console.log(y,x,spanArrAll);
+							//console.log(y,x,spanArrAll);
 							if(y==posArr[1] && x==posArr[0])//没移动
 							{
 								continue;//直接进入下一次循环
@@ -181,7 +224,7 @@ function keyDownFun(keyCode){
 						if(arr[y][x]!=false)//存在的元素
 						{
 							var posArr=keyCodeRightFun(x,y);//做递归
-							console.log(y,x,spanArrAll);
+							//console.log(y,x,spanArrAll);
 							if(y==posArr[1] && x==posArr[0])//没移动
 							{
 								continue;//直接进入下一次循环
